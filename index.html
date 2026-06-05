@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research Projects</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+      background: #fafafa;
+      color: #222;
+    }
+
+    .container {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .project {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 34px;
+      text-align: center;
+      transition: background 0.25s ease;
+    }
+
+    .project:hover {
+      background: #f1f1f1;
+    }
+
+    .left {
+      border-right: 1px solid #dddddd;
+    }
+
+    .tag {
+      margin-bottom: 14px;
+      color: #666;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0 0 24px;
+      font-size: clamp(2.4rem, 4vw, 4.2rem);
+      letter-spacing: -0.05em;
+      line-height: 1;
+    }
+
+    .video-area {
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto 28px;
+    }
+
+    /* Auteur has side DSL boxes, so give it a bit more room. */
+    .auteur-area {
+      max-width: 820px;
+    }
+
+    .simple-video video,
+    .auteur-video video,
+    .lamp-video-card video {
+      width: 100%;
+      display: block;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
+      background: #111;
+    }
+
+    .lamp-prompt-label {
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #333;
+    }
+
+    .lamp-prompt {
+      max-width: 680px;
+      margin: 0 auto 18px;
+      color: #333;
+      font-family: "Bradley Hand", "Segoe Print", cursive;
+      font-size: 1rem;
+      line-height: 1.45;
+    }
+
+    .lamp-video-row {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 18px;
+      width: 100%;
+    }
+
+    .lamp-video-card {
+      flex: 1;
+      min-width: 0;
+      text-align: center;
+    }
+
+    .lamp-video-title {
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #444;
+    }
+
+    .auteur-caption {
+      max-width: 760px;
+      margin: 0 auto 16px;
+      color: #1f78b4;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 1.02rem;
+      line-height: 1.45;
+    }
+
+    .auteur-layout {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .auteur-video {
+      flex: 1 1 auto;
+      min-width: 0;
+      max-width: 500px;
+    }
+
+    .auteur-video video {
+      min-height: 250px;
+      object-fit: cover;
+    }
+
+    .dsl-panel {
+      flex: 0 0 142px;
+      background: #f9f9f9;
+      border: 1px solid #eeeeee;
+      border-radius: 8px;
+      padding: 12px;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      font-size: 12.8px;
+      text-align: left;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+    }
+
+    .dsl-title {
+      display: block;
+      margin-bottom: 8px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #dddddd;
+      color: #888888;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .dsl-field {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+
+    .dsl-label {
+      color: #111111;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .dsl-value {
+      color: #666666;
+      text-align: right;
+    }
+
+    /* Auteur project-page style highlight for selected / changed DSL fields. */
+    .dsl-field.highlight {
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      font-weight: 700;
+    }
+
+    .dsl-field.highlight .dsl-label,
+    .dsl-field.highlight .dsl-value {
+      color: #856404;
+    }
+
+    .auteur-controls {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin-top: 14px;
+    }
+
+    .mini-dsl {
+      width: auto;
+      min-width: 132px;
+      padding: 7px 14px;
+      flex: unset;
+    }
+
+    .mini-dsl .dsl-field {
+      margin-bottom: 0;
+    }
+
+    p {
+      max-width: 620px;
+      margin: 0 auto 26px;
+      color: #555;
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    a.btn {
+      display: inline-block;
+      padding: 12px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .primary {
+      background: #111111;
+      color: #ffffff;
+    }
+
+    .secondary {
+      background: #555555;
+      color: #ffffff;
+    }
+
+    @media (max-width: 1100px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .left {
+        border-right: none;
+        border-bottom: 1px solid #dddddd;
+      }
+
+      .project {
+        min-height: 100vh;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .project {
+        padding: 42px 20px;
+      }
+
+      .auteur-layout,
+      .lamp-video-row {
+        flex-direction: column;
+      }
+
+      .auteur-video {
+        max-width: 100%;
+      }
+
+      .auteur-video video {
+        min-height: unset;
+      }
+
+      .dsl-panel {
+        width: 100%;
+        max-width: 420px;
+        flex: unset;
+      }
+
+      .auteur-controls {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <section class="project left">
+      <div class="tag">Language-Assisted Motion Planning</div>
+      <h1>LAMP</h1>
+
+      <div class="video-area lamp-teaser">
+        <div class="lamp-prompt-label">Prompt</div>
+        <div class="lamp-prompt">
+          <span style="color:#009c3b">A large ship is slowly sailing to the right across a calm, open ocean under a soft golden sunset sky.</span>
+          <span style="color:#1f78b4">The camera moves in a smooth counterclockwise quarter arc around the ship, gradually pulling away while keeping the vessel in focus.</span>
+          Gentle waves ripple around the hull, and the sunlight reflects off the water’s surface, creating a warm, cinematic shimmer.
+          <span style="color:#1f78b4">As the camera retreats, the vastness of the ocean and the ship’s steady motion evoke a sense of tranquility and scale.</span>
+        </div>
+
+        <div class="lamp-video-row">
+          <div class="lamp-video-card">
+            <div class="lamp-video-title">Generated Trajectory</div>
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="0036_cam0000_animation.mp4" type="video/mp4" />
+            </video>
+          </div>
+
+          <div class="lamp-video-card">
+            <div class="lamp-video-title">Generated Video</div>
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="36.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <p>
+        LAMP translates natural-language descriptions of object and camera motion into explicit 3D trajectories for controllable video generation.
+      </p>
+
+      <div class="buttons">
+        <a class="btn primary" href="LAMP_PROJECT_PAGE_LINK">Project Page</a>
+        <a class="btn secondary" href="https://arxiv.org/abs/2512.03619">arXiv</a>
+      </div>
+    </section>
+
+    <section class="project right">
+      <div class="tag">Language-Driven Cinematographic Framing</div>
+      <h1>Auteur</h1>
+
+      <div class="video-area auteur-area">
+        <div class="auteur-caption">
+          The camera arcs from the left side to the front and then right, shifting the perspective smoothly across the space.
+        </div>
+
+        <div class="auteur-layout">
+          <div class="dsl-panel">
+            <span class="dsl-title">Initial DSL</span>
+            <div class="dsl-field highlight"><span class="dsl-label">Orientation:</span> <span class="dsl-value">Left</span></div>
+            <div class="dsl-field"><span class="dsl-label">Depth:</span> <span class="dsl-value">Medium</span></div>
+            <div class="dsl-field"><span class="dsl-label">Camera Level:</span> <span class="dsl-value">Eye</span></div>
+            <div class="dsl-field"><span class="dsl-label">Lookat Level:</span> <span class="dsl-value">Eye</span></div>
+            <div class="dsl-field"><span class="dsl-label">Dutch Angle:</span> <span class="dsl-value">Normal</span></div>
+            <div class="dsl-field"><span class="dsl-label">Framing:</span> <span class="dsl-value">Center</span></div>
+          </div>
+
+          <div class="auteur-video">
+            <video autoplay muted loop playsinline preload="metadata">
+              <source src="arc_right_front_left.mp4" type="video/mp4" />
+            </video>
+          </div>
+
+          <div class="dsl-panel">
+            <span class="dsl-title">Final DSL</span>
+            <div class="dsl-field highlight"><span class="dsl-label">Orientation:</span> <span class="dsl-value">Right</span></div>
+            <div class="dsl-field"><span class="dsl-label">Depth:</span> <span class="dsl-value">Medium</span></div>
+            <div class="dsl-field"><span class="dsl-label">Camera Level:</span> <span class="dsl-value">Eye</span></div>
+            <div class="dsl-field"><span class="dsl-label">Lookat Level:</span> <span class="dsl-value">Eye</span></div>
+            <div class="dsl-field"><span class="dsl-label">Dutch Angle:</span> <span class="dsl-value">Normal</span></div>
+            <div class="dsl-field"><span class="dsl-label">Framing:</span> <span class="dsl-value">Center</span></div>
+          </div>
+        </div>
+
+        <div class="auteur-controls">
+          <div class="dsl-panel mini-dsl">
+            <div class="dsl-field"><span class="dsl-label">Jitter:</span> <span class="dsl-value">None</span></div>
+          </div>
+          <div class="dsl-panel mini-dsl">
+            <div class="dsl-field"><span class="dsl-label">Ease:</span> <span class="dsl-value">None</span></div>
+          </div>
+        </div>
+      </div>
+
+      <p>
+        Auteur uses actor-relative shot compositions and a cinematographic DSL to generate geometrically consistent, narratively intentional camera keyframes.
+      </p>
+
+      <div class="buttons">
+        <a class="btn primary" href="AUTEUR_PROJECT_PAGE_LINK">Project Page</a>
+        <a class="btn secondary" href="https://arxiv.org/abs/2606.01900">arXiv</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
